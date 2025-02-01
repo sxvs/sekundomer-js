@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Секундомер</title>
+  </head>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #timerDisplay {
+      font-size: 60px;
+      font-weight: bold;
+      color: #333;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #4caf50;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  <body>
+    <div id="timerDisplay">00:00:000</div>
+    <button onclick="start()">Старт</button>
+    <button onclick="stop()">Стоп</button>
+    <button onclick="reset()">Сброс</button>
+
+    <script>
+      let startTime,
+        elapsedTime = 0,
+        timerInterval;
+
+      function start() {
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(updateTime, 10);
+      }
+
+      function stop() {
+        clearInterval(timerInterval);
+      }
+
+      function reset() {
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        document.getElementById("timerDisplay").textContent = "00:00:000";
+      }
+
+      function updateTime() {
+        elapsedTime = Date.now() - startTime;
+        let ms = Math.floor(elapsedTime % 1000);
+        let sec = Math.floor((elapsedTime / 1000) % 60);
+        let min = Math.floor((elapsedTime / 60000) % 60);
+        document.getElementById("timerDisplay").textContent = `${min
+          .toString()
+          .padStart(2, "0")}:${sec.toString().padStart(2, "0")}:${ms
+          .toString()
+          .padStart(3, "0")}`;
+      }
+    </script>
+  </body>
+</html>
